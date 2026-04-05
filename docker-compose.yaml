@@ -1,0 +1,46 @@
+services:
+  app:
+    build: .
+    container_name: Dynamic_ride_price_creation
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+
+  db:
+    image: postgres:15-alpine
+    container_name: Postgres_Ride_Price
+    environment:
+      POSTGRES_USER:  ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports: 
+      - "${DB_PORT}:${DB_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${DB_USER} -d $${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redisdb:
+    image: redis:7-alpine
+    container_name: Redis_Ride_Price
+    command: redis-server --appendonly yes
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis_data:/var/lib/redis/data
+
+volumes:
+  postgres_data:
+  redis_data:
+
+
+  
