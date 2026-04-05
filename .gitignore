@@ -2,6 +2,21 @@
 /main
 /api
 /*.exe
+bin/
+out/
+
+#Tests
+*.test
+*.out
+
+#Cont data
+data/
+pgdata/
+redisdata/
+
+#OS rubbish
+.DS_Store
+Thumbs.DB
 
 # Logs
 *.log
