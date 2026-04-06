@@ -38,6 +38,12 @@ services:
     volumes:
       - redis_data:/var/lib/redis/data
 
+  kafka:
+    image: kafka:7-alpine
+    container_name: Kafka_Ride_Price
+    ports:
+      - "80443:9000"
+
 volumes:
   postgres_data:
   redis_data:
